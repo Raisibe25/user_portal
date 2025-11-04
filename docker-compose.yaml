@@ -3,23 +3,25 @@ services:
   db:
     image: postgres:16
     environment:
-      POSTGRES_DB: jdbc:postgresql://localhost:5432/user_portal
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Raisibe@25
+      POSTGRES_DB: user_portal
+      POSTGRES_USER: user_portal_user
+      POSTGRES_PASSWORD: StrongPassword123!
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+
   app:
     build: .
     depends_on:
       - db
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/user_portal
-      SPRING_DATASOURCE_USERNAME: user_portal
-      SPRING_DATASOURCE_PASSWORD: user_portal
+      SPRING_DATASOURCE_USERNAME: user_portal_user
+      SPRING_DATASOURCE_PASSWORD: StrongPassword123!
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
     ports:
       - "8080:8080"
+
 volumes:
   pgdata:
