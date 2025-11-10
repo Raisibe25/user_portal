@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/user_portal
+    url: jdbc:postgresql://db:5432/user_portal
     username: appuser
     password: apppass
   jpa:
