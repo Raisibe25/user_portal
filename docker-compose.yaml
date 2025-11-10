@@ -1,27 +1,36 @@
-version: "3.9"
 services:
   db:
-    image: postgres:16
+    image: postgres:17
+    container_name: user-portal-db
     environment:
       POSTGRES_DB: user_portal
-      POSTGRES_USER: user_portal_user
-      POSTGRES_PASSWORD: StrongPassword123!
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 111333
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d user_portal"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   app:
     build: .
+    container_name: user-portal-app
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/user_portal
-      SPRING_DATASOURCE_USERNAME: user_portal_user
-      SPRING_DATASOURCE_PASSWORD: StrongPassword123!
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 111333
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
     ports:
       - "8080:8080"
+    restart: always
 
 volumes:
   pgdata:
