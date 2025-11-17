@@ -14,7 +14,12 @@ public class AuthController {
     public AuthController(UserService users) { this.users = users; }
 
     @GetMapping("/login")
-    public String login() { return "login"; }
+    public String login(@RequestParam(required = false) String error, Model model) {
+        if (error != null) {
+            model.addAttribute("error", "Invalid username or password");
+        }
+        return "login";
+    }
 
     @GetMapping("/register")
     public String showRegister(Model model) {
