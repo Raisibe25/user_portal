@@ -44,6 +44,7 @@ public class SecurityConfig {
                 )
                 .formLogin(login -> login
                         .loginPage("/login").permitAll()
+                        .failureUrl("/login?error=true") // 👈 Ensures error is passed back
                         .defaultSuccessUrl("/profile", true)
                 )
                 .logout(logout -> logout
@@ -52,6 +53,7 @@ public class SecurityConfig {
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
                 );
+
         return http.build();
     }
 }

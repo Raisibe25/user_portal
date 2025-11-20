@@ -1,17 +1,33 @@
-<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org"><head>
-    <title>User Portal</title><link th:href="@{/css/main.css}" rel="stylesheet"/>
-</head><body>
-<header><a th:href="@{/}">Home</a>
-    <span th:if="${#httpServletRequest.remoteUser != null}">
-    <a th:href="@{/profile}">Profile</a>
-    <form th:action="@{/logout}" method="post">
-      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-      <button type="submit">Logout</button>
-    </form>
-  </span>
-    <span th:if="${#httpServletRequest.remoteUser == null}">
-    <a th:href="@{/login}">Login</a> | <a th:href="@{/register}">Register</a>
-  </span>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Portal</title>
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+</head>
+<body>
+<header>
+    <a th:href="@{/}">Home</a>
+
+    <span th:if="${#authentication?.name != 'anonymousUser'}">
+      <a th:href="@{/profile}">Profile</a>
+      <form th:action="@{/logout}" method="post" style="display:inline">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <button type="submit">Logout</button>
+      </form>
+    </span>
+
+    <span th:if="${#authentication?.name == 'anonymousUser'}">
+      <a th:href="@{/login}">Login</a> | <a th:href="@{/register}">Register</a>
+    </span>
 </header>
-<div th:insert="~{::body}"></div>
-</body></html>
+
+<main th:fragment="layout(content)">
+    <div th:replace="${content}"></div>
+</main>
+
+<footer>
+    <p>&copy; 2025 User Portal</p>
+</footer>
+</body>
+</html>

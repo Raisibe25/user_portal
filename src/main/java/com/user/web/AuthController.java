@@ -1,5 +1,6 @@
 package com.user.web;
 
+import com.user.domain.User;
 import com.user.dto.RegisterRequest;
 import com.user.service.UserService;
 import jakarta.validation.Valid;
@@ -8,13 +9,22 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.util.Optional;
+
 @Controller
 public class AuthController {
+
     private final UserService users;
-    public AuthController(UserService users) { this.users = users; }
+
+    public AuthController(UserService users) {
+        this.users = users;
+    }
 
     @GetMapping("/login")
     public String login(@RequestParam(required = false) String error, Model model) {
+        System.out.println(">>> /login endpoint hit");
+
         if (error != null) {
             model.addAttribute("error", "Invalid username or password");
         }

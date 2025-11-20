@@ -10,6 +10,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -72,5 +74,9 @@ public class UserService {
         r.setFullName(u.getFullName());
         r.setRole(u.getRole() != null ? u.getRole().name() : "UNKNOWN");
         return r;
+    }
+
+    public Optional<User> findByUsername(String username) {
+        return Optional.empty();
     }
 }
